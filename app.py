@@ -20,15 +20,15 @@ def timetable():
 
     # Connect to the PostgreSQL database
     conn = pg8000.connect(
-        user="student", 
-        password="student_pass", 
-        host="localhost", 
+        user="<your_user>", 
+        password="<your_pass>", 
+        host="rds_endpoit", 
         port=5432, 
-        database="student"
+        database="<database_name>"
     )
 
     cur = conn.cursor()
-    query = "SELECT * FROM Timetable WHERE level = %s;"
+    query = "SELECT * FROM Timetable WHERE level = %s;"  #table name can be diff
     cur.execute(query, (level,))
     rows = cur.fetchall()
 
@@ -39,5 +39,5 @@ def timetable():
         return render_template("timetable.html", level=level, data=[], message="No data found for this level.")
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8000)
