@@ -1,5 +1,7 @@
+# app.py
 from flask import Flask, render_template, request
 import pg8000
+import os
 
 app = Flask(__name__)
 
@@ -18,18 +20,21 @@ def timetable():
     if not level:
         return "Level not provided", 400
 
-    # Connect to the PostgreSQL database
     conn = pg8000.connect(
-        user="<your_user>", 
-        password="<your_pass>", 
-        host="rds_endpoit", 
-        port=5432, 
-        database="<database_name>"
+        user=os.getenv("POSTGRES_USER"), 
+        password=os.getenv("POSTGRES_PASSWORD"), 
+        host=os.getenv("POSTGRES_HOST"), 
+        port=int(os.getenv("POSTGRES_PORT")), 
+        database=os.getenv("POSTGRES_DB")
     )
 
     cur = conn.cursor()
-    query = "SELECT * FROM Timetable WHERE level = %s;"  #table name can be diff
-    cur.execute(query, (level,))
+    if level == 'All':
+        query = "SELECT * FROM timetable_abdulaziz.timetable;"  #table name can be diff
+        cur.execute(query)
+    else:
+        query = "SELECT * FROM timetable_abdulaziz.timetable WHERE level = %s;"  #table name can be diff
+        cur.execute(query, (level,))
     rows = cur.fetchall()
 
     # Pass data to the template

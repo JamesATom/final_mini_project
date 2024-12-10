@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      FLASK_ENV: development
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 2134
+      POSTGRES_DB: postgres
+      POSTGRES_HOST: host.docker.internal
+      POSTGRES_PORT: 5432
