@@ -1,4 +1,4 @@
-# aws_mini_project
+# docker_mini_project
 Project to create a simple webpage to check the timetable using local PostgreSQL and Docker.
 
 ## To-Do List
